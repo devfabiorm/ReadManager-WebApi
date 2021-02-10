@@ -20,6 +20,13 @@ namespace Alura.WebAPI.WebApp.Api
             _repo = repository;
         }
 
+        [HttpGet]
+        public IActionResult ListaDeLivros()
+        {
+            var livros = _repo.All.Select(l => l.ToModel()).ToList();
+            return Ok(livros);
+        }
+
         [HttpGet("{id}")]
         public IActionResult Recuperar(int id)
         {
