@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Alura.WebAPI.WebApp.Api
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LivrosController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
@@ -23,7 +23,7 @@ namespace Alura.WebAPI.WebApp.Api
         [HttpGet]
         public IActionResult ListaDeLivros()
         {
-            var livros = _repo.All.Select(l => l.ToModel()).ToList();
+            var livros = _repo.All.Select(l => l.ToApi()).ToList();
             return Ok(livros);
         }
 
@@ -35,10 +35,10 @@ namespace Alura.WebAPI.WebApp.Api
             {
                 return NotFound();
             }
-            return Ok(model.ToModel());
+            return Ok(model.ToApi());
         }
 
-        [HttpGet("api/capas/{id}")]
+        [HttpGet("capas/{id}")]
         public IActionResult ImagemCapa(int id)
         {
             byte[] img = _repo.All
