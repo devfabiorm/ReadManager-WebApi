@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Alura.WebAPI.WebApp.Formatters;
 using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Alura.ListaLeitura.WebApp
 {
@@ -58,7 +59,10 @@ namespace Alura.ListaLeitura.WebApp
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-validation"))
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "Alura.WebApp",
+                    ValidAudience = "Insomnia",
                 };
             });
         }
