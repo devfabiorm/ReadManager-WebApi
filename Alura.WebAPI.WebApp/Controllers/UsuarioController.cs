@@ -71,7 +71,7 @@ namespace Alura.ListaLeitura.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new Usuario { UserName = model.Login };
+                //var user = new Usuario { UserName = model.Login };
                 //var result = await _userManager.CreateAsync(user, model.Password);
                 //if (result.Succeeded)
                 //{
