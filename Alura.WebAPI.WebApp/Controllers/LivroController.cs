@@ -37,7 +37,7 @@ namespace Alura.ListaLeitura.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ImagemCapa(int id)
         {
-            byte[] img = await _api.GetLivroCapaAsync(id);
+            byte[] img = await _api.GetCapaLivroAsync(id);
 
             if (img != null)
             {
