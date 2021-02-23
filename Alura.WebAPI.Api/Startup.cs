@@ -52,6 +52,8 @@ namespace Alura.WebAPI.Api
                     ValidAudience = "Insomnia"
                 };
             });
+
+            services.AddApiVersioning();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
