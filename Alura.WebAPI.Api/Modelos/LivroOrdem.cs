@@ -11,10 +11,11 @@ namespace Alura.WebAPI.Api.Modelos
     {
         public static IQueryable<Livro> AplicaOrdem(this IQueryable<Livro> query, LivroOrdem ordem)
         {
-            if(ordem != null)
+            if(ordem.OrdenarPor != null)
             {
                 query = query.OrderBy(ordem.OrdenarPor);
             }
+
             return query;
         }
     }
