@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Alura.WebAPI.Api.Modelos
         public int Codigo { get; set; }
         public string Mensagem { get; set; }
         public ErrorResponse InnerError { get; set; }
+        public string[] Detalhes { get; set; }
 
         public static ErrorResponse From(Exception e)
         {
@@ -23,6 +25,17 @@ namespace Alura.WebAPI.Api.Modelos
                 Codigo = e.HResult,
                 Mensagem = e.Message,
                 InnerError = From(e.InnerException)
+            };
+        }
+
+        internal static ErrorResponse FromModelState(ModelStateDictionary modelState)
+        {
+            var errors = modelState.Values.SelectMany(m => m.Errors);
+            return new ErrorResponse
+            {
+                Codigo = 100,
+                Mensagem = "Houve erro(s) no envio da requisição.",
+                Detalhes = errors.Select(e => e.ErrorMessage).ToArray()
             };
         }
     }
