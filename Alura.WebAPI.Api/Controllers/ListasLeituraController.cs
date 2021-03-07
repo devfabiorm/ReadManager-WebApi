@@ -1,8 +1,10 @@
 ﻿using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
+using Alura.WebAPI.Api.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,14 @@ namespace Alura.ListaLeitura.Api.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Recupera as listas de leitura",
+            Tags = new[] { "Listas" },
+            Produces = new[] { "application/json", "application/xml" }
+        )]
+        [ProducesResponseType(statusCode: 200, Type = typeof(List<Lista>))]
+        [ProducesResponseType(statusCode: 500, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(statusCode: 404)]
         public IActionResult TodasListas()
         {
             Lista paraLer = CriaLista(TipoListaLeitura.ParaLer);
@@ -49,7 +59,16 @@ namespace Alura.ListaLeitura.Api.Controllers
         }
 
         [HttpGet("{tipo}")]
-        public IActionResult Recuperar(TipoListaLeitura tipo)
+        [SwaggerOperation(
+            Summary = "Recupera a lista de leitura identificada por seu {tipo}.",
+            Tags = new[] { "Listas" },
+            Produces = new[] { "application/json", "application/xml" }
+        )]
+        [ProducesResponseType(200, Type = typeof(Lista))]
+        [ProducesResponseType(500, Type = typeof(ErrorResponse))]
+        public IActionResult Recuperar(
+            [FromRoute]
+            [SwaggerParameter("Tipo da lista a ser obtida.")] TipoListaLeitura tipo)
         {
             var lista = CriaLista(tipo);
 

@@ -67,6 +67,33 @@ namespace Alura.WebAPI.Api
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info { Title = "Livros API", Description = "Documentação da API de Livros", Version = "1.0" });
                 c.SwaggerDoc("v2", new Info { Title = "Livros API", Description = "Documentação da API de Livros", Version = "2.0" });
+                
+                c.EnableAnnotations();
+
+                //Definição do esquema de segurança utilizado pela API
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey",
+                    Description = "Autenticação Bearer via JWT"
+                });
+
+                //operações que usam o esquema acima, nesse caso TODAS
+                c.AddSecurityRequirement(
+                    new Dictionary<string, IEnumerable<string>> {
+                        {"Bearer", new string[] {} }
+                });
+
+                //Descrevendo enumados como strings
+                c.DescribeAllEnumsAsStrings();
+                c.DescribeStringEnumsInCamelCase();
+
+                //Adicionando o filtro para incluir respostas 404 nas operações
+                c.OperationFilter<AuthResponsesOperationFilter>();
+
+                //Adicionando o filtro para incluir descrições nas Tags
+                c.DocumentFilter<TagDescriptionsDocumentFilter>();
             });
         }
 
