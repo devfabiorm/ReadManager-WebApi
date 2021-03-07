@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,11 @@ namespace Alura.WebAPI.Api
             });
 
             services.AddApiVersioning();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Info { Title = "Livros API", Description = "Documentação da API de Livros", Version = "1.0" });
+                c.SwaggerDoc("v2", new Info { Title = "Livros API", Description = "Documentação da API de Livros", Version = "2.0" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +81,13 @@ namespace Alura.WebAPI.Api
             app.UseAuthentication();
 
             app.UseMvc();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Versão 1.0");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Versão 2.0");
+            });
         }
     }
 }
